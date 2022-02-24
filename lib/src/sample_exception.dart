@@ -5,13 +5,12 @@
 
 import 'dart:core' as core;
 
+part 'sample_error.dart';
+
 /// Depend on Exception,
 /// SemiException provide a model, which is contains basic data for handling
 /// error and exception.
 ///
-///
-part 'sample_error.dart';
-
 class SampleException<T> implements core.Exception {
   const SampleException(
     this.errorCode, {
@@ -20,6 +19,27 @@ class SampleException<T> implements core.Exception {
     this.stackTrace,
     this.time,
   });
+
+  /// if error is SampleException, it will not be generate again
+  static SampleException auto(
+    core.String errorCode, {
+    core.String? message,
+    core.dynamic error,
+    core.StackTrace? stackTrace,
+    core.DateTime? time,
+  }) {
+    if (error != null && error is SampleException) {
+      return error;
+    } else {
+      return SampleException(
+        errorCode,
+        stackTrace: stackTrace,
+        error: error,
+        message: message,
+        time: time,
+      );
+    }
+  }
 
   /// Each exception has a identification code, let the program detach what it
   /// will do next

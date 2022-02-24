@@ -5,6 +5,7 @@
 
 import 'package:sample_exception/sample_exception.dart';
 
+/// example
 void main() async {
   final exception = SampleException(
     SampleErrorCode.unknown,
