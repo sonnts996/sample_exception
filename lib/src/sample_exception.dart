@@ -12,8 +12,9 @@ import 'dart:core' as core;
 ///
 part 'sample_error.dart';
 
-class SampleException implements core.Exception {
-  const SampleException(this.errorCode, {
+class SampleException<T> implements core.Exception {
+  const SampleException(
+    this.errorCode, {
     this.message,
     this.error,
     this.stackTrace,
@@ -28,7 +29,7 @@ class SampleException implements core.Exception {
   final core.String? message;
 
   /// The source error or exception
-  final core.dynamic error;
+  final T? error;
 
   /// The stackTrace
   final core.StackTrace? stackTrace;
