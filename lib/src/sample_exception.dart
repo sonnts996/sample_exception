@@ -13,7 +13,7 @@ part 'sample_error.dart';
 ///
 class SampleException<T> implements core.Exception {
   const SampleException(
-    this.errorCode, {
+    this._errorCode, {
     this.message,
     this.error,
     this.stackTrace,
@@ -21,17 +21,17 @@ class SampleException<T> implements core.Exception {
   });
 
   /// if error is SampleException, it will not be generate again
-  static SampleException auto(
+  factory SampleException.on(
     core.String errorCode, {
     core.String? message,
     core.dynamic error,
     core.StackTrace? stackTrace,
     core.DateTime? time,
   }) {
-    if (error != null && error is SampleException) {
-      return error;
+    if (error != null && error is SampleException<T>) {
+      return error.copyWith(errorCode: '[$errorCode]:${error.errorCode}');
     } else {
-      return SampleException(
+      return SampleException<T>(
         errorCode,
         stackTrace: stackTrace,
         error: error,
@@ -41,9 +41,28 @@ class SampleException<T> implements core.Exception {
     }
   }
 
+  /// return a SampleException clone
+  SampleException<T> copyWith({
+    core.String? errorCode,
+    core.String? message,
+    T? error,
+    core.StackTrace? stackTrace,
+    core.DateTime? time,
+  }) {
+    return SampleException(
+      errorCode ?? _errorCode,
+      error: error ?? this.error,
+      stackTrace: stackTrace ?? this.stackTrace,
+      time: time ?? this.time,
+      message: message ?? this.message,
+    );
+  }
+
+  core.String get errorCode => _errorCode;
+
   /// Each exception has a identification code, let the program detach what it
   /// will do next
-  final core.String errorCode;
+  final core.String _errorCode;
 
   /// Log the message of this exception
   final core.String? message;
