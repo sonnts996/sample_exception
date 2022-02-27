@@ -17,8 +17,8 @@ void main() async {
     time: DateTime.now(),
   );
 
-  final baseon = SampleException.on('hi', error: exception);
-  final baseon2 = NetworkException( error: exception);
+  final baseon = SampleException('hi', error: exception);
+  final baseon2 = NetworkException(error: exception);
   print(baseon);
   print(baseon2);
   // print('Print: ');
@@ -27,26 +27,18 @@ void main() async {
   // throw exception;
 }
 
-class NetworkException implements SampleException {
-  final SampleException _delegate;
-
+class NetworkException extends SampleException {
   NetworkException({
     String errorCode = '',
     dynamic error,
     StackTrace? stackTrace,
-  }) : _delegate = SampleException.on('network-$errorCode',
+  }) : super(errorCode,
             error: error,
             stackTrace: stackTrace,
             time: DateTime.now(),
             message: 'Error in network:');
 
   @override
-  noSuchMethod(Invocation invocation) =>
-      reflect(_delegate).delegate(invocation);
-
-  @override
-  String toString() {
-    // TODO: implement toString
-    return _delegate.toString();
-  }
+  // TODO: implement errorCode
+  String get errorCode => 'network-${super.errorCode}';
 }
