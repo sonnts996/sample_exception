@@ -142,14 +142,20 @@ class SampleException<T> implements core.Exception {
   }
 
   /// return true if the  first exception in tree same [errorCode]
-  core.bool checkBaseError(String errorCode) {
+  core.bool checkBaseError<E extends SampleException>([String? errorCode]) {
     final base = baseError();
-    return base.errorCode == errorCode;
+    if (errorCode != null) {
+      return base.errorCode == errorCode && base is E;
+    } else {
+      return base is E;
+    }
   }
 
   /// get any exception in tree which is first match [errorCode]
-  SampleException? whereError<E extends SampleException>(String errorCode) {
-    if (this.errorCode == errorCode && this is E) {
+  SampleException? whereError<E extends SampleException>([String? errorCode]) {
+    if (errorCode == null && this is E) {
+      return this;
+    } else if (this.errorCode == errorCode && this is E) {
       return this;
     } else {
       return tree?.whereError<E>(errorCode);
@@ -157,7 +163,7 @@ class SampleException<T> implements core.Exception {
   }
 
   /// return true if the same [errorCode] which match first
-  core.bool containsError<E extends SampleException>(String errorCode) {
+  core.bool containsError<E extends SampleException>([String? errorCode]) {
     return whereError(errorCode) != null;
   }
 }
