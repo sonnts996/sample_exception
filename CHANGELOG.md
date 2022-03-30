@@ -6,3 +6,5 @@
 
 - Remove tree constructor in SampleException.errorCode
 - Add tree constructor as field to SampleException
+
+- fix containsError<E>

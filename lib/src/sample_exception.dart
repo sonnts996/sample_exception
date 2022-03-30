@@ -164,6 +164,6 @@ class SampleException<T> implements core.Exception {
 
   /// return true if the same [errorCode] which match first
   core.bool containsError<E extends SampleException>([String? errorCode]) {
-    return whereError(errorCode) != null;
+    return whereError<E>(errorCode) != null;
   }
 }
