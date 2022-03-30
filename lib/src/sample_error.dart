@@ -3,11 +3,9 @@
  Copyright (c) 2022 . All rights reserved.
 */
 
-part of 'sample_exception.dart';
-
 /// Error code
 ///
-extension SampleErrorCode on SampleException {
+class SampleErrorCode {
 // unknown
   static const unknown = 'unknown';
 

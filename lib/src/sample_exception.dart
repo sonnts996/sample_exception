@@ -5,7 +5,7 @@
 
 import 'dart:core' as core;
 
-part 'sample_error.dart';
+import 'dart:core';
 
 /// Depend on Exception,
 /// SemiException provide a model, which is contains basic data for handling
@@ -20,18 +20,34 @@ class SampleException<T> implements core.Exception {
     core.StackTrace? stackTrace,
     core.DateTime? time,
   }) {
+    // if (error != null && error is SampleException<T>) {
+    //   _errorCode = '[$errorCode]:${error.errorCode}';
+    //   this.message = error.message;
+    //   this.stackTrace = error.stackTrace;
+    //   this.time = error.time;
+    //   this.error = error.error;
+    // } else {
+    //   _errorCode = errorCode;
+    //   this.message = message;
+    //   this.stackTrace = stackTrace;
+    //   this.time = time;
+    //   this.error = error;
+    // }
+
     if (error != null && error is SampleException<T>) {
-      _errorCode = '[$errorCode]:${error.errorCode}';
+      _errorCode = errorCode;
       this.message = error.message;
       this.stackTrace = error.stackTrace;
       this.time = error.time;
       this.error = error.error;
+      tree = error;
     } else {
       _errorCode = errorCode;
       this.message = message;
       this.stackTrace = stackTrace;
       this.time = time;
       this.error = error;
+      tree = null;
     }
   }
 
@@ -53,6 +69,9 @@ class SampleException<T> implements core.Exception {
   /// The time, when exception occurs
   late final core.DateTime? time;
 
+  /// Exception tree
+  late final SampleException? tree;
+
   @core.override
   core.String toString() {
     return getMessage();
@@ -67,17 +86,8 @@ class SampleException<T> implements core.Exception {
       return false;
     }
     return other is SampleException<T> &&
-        message == other.message &&
-        error == other.error &&
-        stackTrace == other.stackTrace &&
         time == other.time &&
-        _errorCodeCompare(other);
-  }
-
-  core.bool _errorCodeCompare(SampleException<T> other) {
-    if (_errorCode == other._errorCode) return true;
-    return _errorCode.endsWith(other._errorCode) ||
-        other._errorCode.endsWith(_errorCode);
+        errorCode == errorCode;
   }
 
   /// return a SampleException clone
@@ -117,5 +127,37 @@ class SampleException<T> implements core.Exception {
       rs += '\non ${error.toString()}';
     }
     return rs;
+  }
+
+  @override
+  core.int get hashCode => core.Object.hash(time, errorCode);
+
+  /// get the first exception in tree
+  SampleException baseError() {
+    if (tree == null) {
+      return this;
+    } else {
+      return tree!.baseError();
+    }
+  }
+
+  /// return true if the  first exception in tree same [errorCode]
+  core.bool checkBaseError(String errorCode) {
+    final base = baseError();
+    return base.errorCode == errorCode;
+  }
+
+  /// get any exception in tree which is first match [errorCode]
+  SampleException? whereError<E extends SampleException>(String errorCode) {
+    if (this.errorCode == errorCode && this is E) {
+      return this;
+    } else {
+      return tree?.whereError<E>(errorCode);
+    }
+  }
+
+  /// return true if the same [errorCode] which match first
+  core.bool containsError<E extends SampleException>(String errorCode) {
+    return whereError(errorCode) != null;
   }
 }
