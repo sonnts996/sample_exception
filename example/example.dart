@@ -28,11 +28,6 @@ void main() async {
       baseon3.whereError<SampleException<Exception>>(SampleErrorCode.unknown);
   final rs8 = baseon3.checkBaseError<SampleException>(SampleErrorCode.unknown);
   final rs9 = baseon3.containsError<NetworkException>();
-  print(baseon3);
-  // print('Print: ');
-  // exception.print();
-  // print('Throw: ');
-  // throw exception;
 }
 
 class NetworkException extends SampleException {
