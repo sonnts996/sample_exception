@@ -8,3 +8,8 @@
 - Add tree constructor as field to SampleException
 
 - fix containsError<E>
+
+
+## 1.0.1+3
+
+- fix bug
