@@ -33,6 +33,15 @@ class SampleErrorCode {
 // whitespace
   static const whitespace = 'whitespace';
 
+// Not Initialized yet
+  static const notInitialized = 'not-initialized';
+
+// invalid
+  static const invalid = 'invalid';
+
+// undefined
+  static const undefined = 'undefined';
+
 /* file and network error */
 
 // no internet access

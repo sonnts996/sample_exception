@@ -16,6 +16,7 @@ class SampleException<T> implements core.Exception {
   SampleException(
     core.String errorCode, {
     core.String? message,
+    core.String? debugMessage,
     core.dynamic error,
     core.StackTrace? stackTrace,
     core.DateTime? time,
@@ -41,6 +42,7 @@ class SampleException<T> implements core.Exception {
       this.time = error.time;
       this.error = error.error;
       tree = error;
+      this.debugMessage = error.debugMessage;
     } else {
       _errorCode = errorCode;
       this.message = message;
@@ -48,6 +50,7 @@ class SampleException<T> implements core.Exception {
       this.time = time;
       this.error = error;
       tree = null;
+      this.debugMessage = debugMessage;
     }
   }
 
@@ -59,6 +62,9 @@ class SampleException<T> implements core.Exception {
 
   /// Log the message of this exception
   late final core.String? message;
+
+  /// Log the message for debug of this exception
+  late final core.String? debugMessage;
 
   /// The source error or exception
   late final T? error;
@@ -94,6 +100,7 @@ class SampleException<T> implements core.Exception {
   SampleException<T> copyWith({
     core.String? errorCode,
     core.String? message,
+    core.String? debugMessage,
     T? error,
     core.StackTrace? stackTrace,
     core.DateTime? time,
@@ -102,6 +109,7 @@ class SampleException<T> implements core.Exception {
       errorCode ?? _errorCode,
       error: error ?? this.error,
       stackTrace: stackTrace ?? this.stackTrace,
+      debugMessage: debugMessage ?? this.debugMessage,
       time: time ?? this.time,
       message: message ?? this.message,
     );
@@ -115,8 +123,8 @@ class SampleException<T> implements core.Exception {
 
   core.String getMessage() {
     core.String rs = '$errorCode:';
-    if (message != null) {
-      rs += ' $message!';
+    if (debugMessage != null) {
+      rs += ' $debugMessage!';
     }
 
     if (time != null) {
