@@ -1,6 +1,6 @@
 name: sample_exception
 description: Define a generic exception for all project and library. help the Developer code easer with error and exception.
-version: 1.0.2
+version: 1.0.2+1
 repository: https://github.com/sonnts996/sample_exception
 
 environment:
