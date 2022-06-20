@@ -97,7 +97,7 @@ class SampleException<T> implements core.Exception {
   }
 
   /// return a SampleException clone
-  E copyWith<E extends SampleException<T>>({
+  SampleException<T> copyWith({
     core.String? errorCode,
     core.String? message,
     core.String? debugMessage,
@@ -112,7 +112,7 @@ class SampleException<T> implements core.Exception {
       debugMessage: debugMessage ?? this.debugMessage,
       time: time ?? this.time,
       message: message ?? this.message,
-    ) as E;
+    );
   }
 
   /// Log to console this exception
