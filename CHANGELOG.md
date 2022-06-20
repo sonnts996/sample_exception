@@ -25,7 +25,3 @@
 ## 1.0.2
 
 - add field debugMessage
-
-## 1.0.2+1
-
-- copy with fix
