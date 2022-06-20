@@ -3,8 +3,6 @@
  Copyright (c) 2022 . All rights reserved.
 */
 
-import 'dart:math';
-
 import 'package:sample_exception/sample_exception.dart';
 
 /// example
@@ -30,10 +28,6 @@ void main() async {
       baseon3.whereError<SampleException<Exception>>(SampleErrorCode.unknown);
   final rs8 = baseon3.checkBaseError<SampleException>(SampleErrorCode.unknown);
   final rs9 = baseon3.containsError<NetworkException>();
-
-  final ne = NetworkException<dynamic>();
-  print((ne.copyWith(errorCode: 'hi'))
-      .containsError<NetworkException>());
 }
 
 class NetworkException<T> extends SampleException<T> {
@@ -50,25 +44,6 @@ class NetworkException<T> extends SampleException<T> {
   @override
   // TODO: implement errorCode
   String get errorCode => 'network-${super.errorCode}';
-
-  @override
-  NetworkException<T> copyWith(
-      {String? errorCode,
-      String? message,
-      String? debugMessage,
-      T? error,
-      StackTrace? stackTrace,
-      DateTime? time}) {
-    // TODO: implement copyWith
-    return super.copyWith(
-      errorCode: errorCode,
-      message: message,
-      debugMessage: debugMessage,
-      error: error,
-      stackTrace: stackTrace,
-      time: time,
-    ) as NetworkException<T>;
-  }
 }
 
 class BlocException extends SampleException {
